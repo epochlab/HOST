@@ -1,0 +1,123 @@
+#define MAX_BOUNCES 8
+#define NEAR_DISTANCE 1.0e-3
+#define FAR_DISTANCE 1.0e3
+
+#define GEOS_INPUT_IDX 1
+
+#define SKY_RAMP_NAME "sky"
+#define ALBEDO_ATTRIB_NAME "Cd"
+#define NORMAL_ATTRIB_NAME "N"
+
+struct Ray {vector origin; vector direction;
+};
+
+struct Hit {int prim; vector uvw; vector pos; vector normal;
+};
+
+void
+trace(export int hitten; export Hit hit; const Ray ray)
+{
+    vector pos;
+    vector uvw;
+    int prim;
+
+    prim = intersect(GEOS_INPUT_IDX, ray.origin + ray.direction * NEAR_DISTANCE, ray.direction * FAR_DISTANCE, pos, uvw);
+
+    hitten = prim > -1;
+    if (hitten) {
+        hit.prim = prim;
+        hit.uvw = uvw;
+        hit.pos = pos;
+        hit.normal = primuv(GEOS_INPUT_IDX, NORMAL_ATTRIB_NAME, hit.prim, hit.uvw);
+    }
+}
+
+void
+evalLambertianMaterial(export int scattered; export Ray scatteredRay; export vector attenuation; const Ray ray; const Hit hit)
+
+{
+    vector target;
+    vector randomPos;
+
+    randomPos = sample_sphere_uniform(set(nrandom(), nrandom(), nrandom())) * 0.2;
+    target = hit.pos + hit.normal + randomPos;
+    attenuation = primuv(GEOS_INPUT_IDX, ALBEDO_ATTRIB_NAME, hit.prim, hit.uvw);
+    scatteredRay = Ray(hit.pos, normalize(target - hit.pos));
+    scattered = 1;
+}
+
+void
+getColor(export vector color; const Ray ray)
+{
+    int i;
+    Ray stack[];
+    vector accumulator[];
+    int hitten;
+    Hit hit;
+
+    i = 0;
+    push(stack, ray);
+    while (len(stack) > 0) {
+        Ray currentRay;
+
+        currentRay = pop(stack);
+        trace(hitten, hit, currentRay);
+
+        if (hitten && i < MAX_BOUNCES) {
+            int scattered;
+            Ray scatteredRay;
+            vector attenuation;
+
+            evalLambertianMaterial(scattered, scatteredRay, attenuation, currentRay, hit);
+
+            if (scattered) {
+                push(accumulator, attenuation);
+                push(stack, scatteredRay);
+            } else {
+                push(accumulator, {0.0, 0.0, 0.0});
+            }
+
+            ++i;
+        }
+
+        else {
+            float v;
+
+            v = dot(normalize(set(currentRay.direction.x, 0.0, currentRay.direction.z)),currentRay.direction);
+            v = currentRay.direction.y < 0 ? 0.0 : 1.0 - v;
+            push(accumulator, chramp(SKY_RAMP_NAME, v));
+        }
+    }
+
+    color = {1.0, 1.0, 1.0};
+    for (i = 0; i < len(accumulator); ++i) {
+        color *= accumulator[i];
+    }
+}
+
+void
+getCameraRay(export Ray ray; const vector throughPos; const vector pos; const vector u; const vector v; const float aperture)
+
+{
+    vector2 samplePos;
+    vector origin;
+
+    samplePos = aperture;
+    origin = pos + u * samplePos.x + v * samplePos.y;
+    ray = Ray(origin, normalize(throughPos - origin));
+}
+
+cvex
+main(export vector Cd = {0.0, 0.0, 0.0};
+     const vector P = {0.0, 0.0, 0.0};
+     const vector cameraPos = {0.0, 0.0, 0.0};
+     const vector cameraU = {1.0, 0.0, 0.0};
+     const vector cameraV = {0.0, 1.0, 0.0};
+     const float cameraAperture = 1.0)
+{
+    Ray ray;
+
+    Cd = {0.0, 0.0, 0.0};
+    getCameraRay(ray, P, cameraPos, cameraU, cameraV, cameraAperture);
+    getColor(Cd, ray);
+}
