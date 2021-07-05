@@ -2,7 +2,7 @@
 
 **Project ID:** Zy6OTkvN
 
-![alt text](https://github.com/epochlab/agent/blob/main/sample.png)
+![alt text](https://github.com/epochlab/agent/blob/main/sample_01.png)
 
 #### Cyber optics and agent perception
 Abstract: **
