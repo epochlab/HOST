@@ -1,4 +1,4 @@
-# agent|| EPOCH Laboratory
+# agent
 
 **Project ID:** Zy6OTkvN
 
