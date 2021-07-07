@@ -5,7 +5,7 @@
 ![alt text](https://github.com/epochlab/agent/blob/main/sample_01.png)
 
 #### Cyber optics and agent perception
-Abstract: **
+Abstract: *Research and development toolkit to explore perception and sensory input of an agent within a synthetic environment*
 
 ### Requirements
 
