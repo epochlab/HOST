@@ -2,7 +2,7 @@
 
 **Project ID:** Zy6OTkvN
 
-![alt text](https://github.com/epochlab/host/blob/main/sample_01.png)
+![alt text](https://github.com/epochlab/host/blob/main/sample.png)
 
 #### Cyber optics and agent perception
 Abstract: *Research and development toolkit to explore perception and sensory input of an agent within a synthetic environment*
@@ -11,4 +11,4 @@ Abstract: *Research and development toolkit to explore perception and sensory in
 
 - Both Linux and Windows are supported. Linux is recommended for performance and compatibility reasons.
 - 64-bit Python 3.7.9 installation.
-- SideFX Houdini
+- SideFX Houdini 18.5
