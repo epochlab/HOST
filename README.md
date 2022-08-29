@@ -2,7 +2,11 @@
 
 **Project ID:** Zy6OTkvN
 
-![alt text](https://github.com/epochlab/host/blob/main/sample.png)
+<p align="center">
+  <img src="https://github.com/epochlab/host/blob/main/sample.png">
+</p>
+
+--------------------------------------------------------------------
 
 #### Cyber optics and agent perception
 Abstract: *Research and development toolkit to explore perception and sensory input of an agent within a synthetic environment*
