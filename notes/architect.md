@@ -1,15 +1,15 @@
 # Project architecture — repo/module map
 
-*Design overview: how `engine.md`, `agent.md`, and `neural.md`'s stages are packaged into
+*Design overview: how `engine/README.md`, `agent.md`, and `neural.md`'s stages are packaged into
 separate, independently-versioned repositories, and how a master project composes them*
 
 ## 1. Repo topology overview
 
 - master — submodule pins, build/launch scripts, training/sim harness
-  - engine — `engine.md`
+  - engine — `engine/README.md`
   - agent — `agent.md`
   - neural — `neural.md` §1–2 loop wiring
-  - cnn — visual cortex feature extraction (sobel filtering now lives in `engine` as an AOV — see `engine.md` §3)
+  - cnn — visual cortex feature extraction (sobel filtering now lives in `engine` as an AOV — see `engine/README.md` §3)
   - transformer — neocortex
   - hopfield — hippocampus
   - rl — basal ganglia (action-value learning + cross-inhibition filter)
@@ -28,7 +28,7 @@ itself owns only loop-wiring (retina frame buffer, dopaminergic gate, sliding co
 | Repo | Owns | Language/stack | Depends on | Spec |
 |---|---|---|---|---|
 | master | Submodule pins, build/launch, training loop, task config, sim harness | — | all repos below | this doc |
-| engine | Renderer: camera → ... → framebuffer, AOV set | C++, OpenGL → CUDA/OptiX (Phase 5) | — | `engine.md` |
+| engine | Renderer: camera → ... → framebuffer, AOV set | C++, OpenGL → CUDA/OptiX (Phase 6) | — | `engine/README.md` |
 | agent | Retina sensor (ray-cast sampling), spatial state | C++ (shares engine's backend) | engine (BVH, AOVs) | `agent.md` |
 | neural | Loop wiring: retina buffer, dopaminergic gate, reward channel, context window | Python (§6) | agent, cnn, transformer, hopfield, rl, ring-attractor, mlp | `neural.md` §1–2 |
 | cnn | Visual cortex feature extraction | Python, GPU (CUDA/Apple Silicon) | — | `neural.md` §3 |
@@ -42,7 +42,7 @@ itself owns only loop-wiring (retina frame buffer, dopaminergic gate, sliding co
 
 | Interface | Producer | Consumer | Defined in |
 |---|---|---|---|
-| BVH, AOVs (tiered colour signal — `agent.md` §3 —, Depth, Normals) | engine | agent | `engine.md` §2–3, `agent.md` §3 |
+| BVH, AOVs (tiered colour signal — `agent.md` §3 —, Depth, Normals) | engine | agent | `engine/README.md` §2–3, `agent.md` §3 |
 | Packed colour-D-normal signal | agent | neural | `agent.md` §2 ("Signal packing") |
 | Motor output → per-step state update | ring-attractor → neural | agent | `agent.md` §2 ("Per-step state update") |
 | Position/heading → next frame's scene state | agent | engine | `agent.md` §1 |
@@ -59,8 +59,8 @@ mechanism is open: pybind11 (in-process, no serialization cost) vs. an IPC bound
 ring, ZeroMQ, gRPC — decoupled processes, a copy per step). Deferred pending neural's per-step
 compute budget.
 
-Dual GPU-backend support creates an asymmetry with Engine: Phase 5's CUDA/OptiX backend
-(`engine.md` §4) is NVIDIA-only, so Engine stays on OpenGL on Apple Silicon while Neural still gets
+Dual GPU-backend support creates an asymmetry with Engine: Phase 6's CUDA/OptiX backend
+(`engine/README.md` §4) is NVIDIA-only, so Engine stays on OpenGL on Apple Silicon while Neural still gets
 GPU acceleration there via its portable backend. On NVIDIA this also opens GPU-resident interop for
 the packed signal (§3) — e.g. CUDA/OpenGL interop, avoiding a host round-trip — with no Apple
 Silicon equivalent. Unresolved; flagged in §6.
@@ -77,7 +77,7 @@ Silicon equivalent. Unresolved; flagged in §6.
 
 | Section | Open question |
 |---|---|
-| Neural language | Python assumed (`neural.md`'s CNN/transformer/DQN/Hopfield mix reads as a PyTorch stack) but not committed, mirroring `engine.md` §4's own deferred language choice. |
+| Neural language | Python assumed (`neural.md`'s CNN/transformer/DQN/Hopfield mix reads as a PyTorch stack) but not committed — unlike engine, which settled on C++20/CMake back at its own Phase 0. |
 | C++↔Python boundary (§4) | pybind11 vs. IPC — settle once neural's per-step compute budget is known. |
 | GPU backend (§4) | Framework must support both CUDA and Apple Silicon without per-backend forks (e.g. PyTorch's CUDA/MPS backends). Whether NVIDIA-only GPU-resident interop with Engine is worth the platform divergence is unresolved. |
 | Sub-repo granularity (§1) | One repo per mechanism today; fold any that stay trivially small back into `neural` rather than keeping them as submodules. |
@@ -96,9 +96,9 @@ applied where the domain allows.
 
 | Rule | Applied here |
 |---|---|
-| Simple control flow, minimal recursion | Engine's recursive path tracing (`engine.md` §2) is the one deliberate exception, bounded by Russian roulette termination — provable termination satisfies the rule's intent. Elsewhere: no goto, no recursion. |
+| Simple control flow, minimal recursion | Engine's recursive path tracing (`engine/README.md` §2) is the one deliberate exception, bounded by Russian roulette termination — provable termination satisfies the rule's intent. Elsewhere: no goto, no recursion. |
 | Every loop has a fixed, provable bound | No unbounded loop without an explicit, provable exit condition. |
-| No dynamic allocation after init | GPU buffers/tensors allocated once, reused per step — `engine.md`'s Memory HUD (§2) exists to catch a violation immediately. |
+| No dynamic allocation after init | GPU buffers/tensors allocated once, reused per step — `engine/README.md`'s Memory HUD (§2) exists to catch a violation immediately. |
 | One function, one screen (~60 lines) | A long function is a signal to split, not a style choice. |
 | ≥2 assertions per function, on average | On invariants/preconditions, not on inputs that can't occur at that boundary. |
 | Smallest possible variable scope | Applied as written. |
