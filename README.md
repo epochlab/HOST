@@ -6,7 +6,7 @@ An embodied agent simulation: a real-time physically based render engine paired 
 
 ## Overview
 
-- **Render engine** (`notes/engine.md`) — a GPU path tracer built progressively from a direct-lighting ray tracer toward full spectral, unbiased global illumination.
+- **Render engine** (`notes/engine.md`, code in [`engine/`](engine/)) — a GPU path tracer built progressively from a direct-lighting ray tracer toward full spectral, unbiased global illumination.
 - **Agent sensor & spatial state** (`notes/agent.md`) — a point-sampled retinal sensor that casts rays into the engine's scene and packs RGB-D-normal signal for the agent.
 - **Cognitive architecture** (`notes/neural.md`) — a recurrent loop (Retina → Visual cortex → Neocortex → Basal ganglia → Motor output) modelled on anatomical analogues.
 
