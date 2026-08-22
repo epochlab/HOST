@@ -12,6 +12,26 @@ An embodied agent simulation: a real-time physically based render engine paired 
 
 The three pieces close a loop: the engine renders the environment, the agent's retina samples it, the cognitive architecture decides on an action, and motor output updates the agent's state in the environment.
 
+## Setup
+
+ENGINE is checked out as a git submodule under `engine/`. Clone with submodules included:
+
+```
+git clone --recurse-submodules https://github.com/epochlab/HOST.git
+```
+
+If you already have a clone without the submodule, initialise it with:
+
+```
+git submodule update --init --recursive
+```
+
+To pull in upstream ENGINE changes later:
+
+```
+git submodule update --remote engine
+```
+
 ## Notes
 
 Design documents live under [notes/](notes/):
