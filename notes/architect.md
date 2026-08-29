@@ -106,6 +106,7 @@ applied where the domain allows.
 | Minimal preprocessor use | Header guards and simple config macros only — no macro metaprogramming. |
 | Restricted pointer use | C++ repos only; Python's object model isn't the indirection this rule guards against. |
 | Zero warnings, static analysis every build | `-Wall -Wextra -Werror` + clang-tidy/cppcheck (C++), ruff/mypy (Python) — gating every commit, not just CI. |
+| Efficient comments | Clean optimized technically correct comments (what and why). No wordwrap, No extra prose. Token efficient. |
 
 ## 8. References
 
