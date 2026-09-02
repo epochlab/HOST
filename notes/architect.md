@@ -107,6 +107,7 @@ applied where the domain allows.
 | Restricted pointer use | C++ repos only; Python's object model isn't the indirection this rule guards against. |
 | Zero warnings, static analysis every build | `-Wall -Wextra -Werror` + clang-tidy/cppcheck (C++), ruff/mypy (Python) — gating every commit, not just CI. |
 | Efficient comments | Clean optimized technically correct comments (what and why). No wordwrap, No extra prose. Token efficient. |
+| Authoring | Do NOT add 'Authored by Claude' in any commits, merge or pull requests. |
 
 ## 8. References
 
