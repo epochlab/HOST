@@ -13,7 +13,7 @@ The architecture is organised as a continuous, recurrent loop rather than a sing
   - → Reward → Basal ganglia
 - Motor output → updates Environment (closes the loop) and Hippocampus (writes new memory)
 
-Six anatomically-grounded stages carry the main loop: the retina samples the scene, the visual cortex extracts features, the neocortex reasons over them, the basal ganglia learns action values and filters between alternatives, and motor output selects the action that updates the environment. A direct reward channel from the environment to the basal ganglia was a gap identified during design and is now included explicitly — without it, the basal ganglia has nothing to learn from.
+Six anatomically-grounded stages carry the main loop: the retina samples the scene, the visual cortex extracts features, the neocortex reasons over them, the basal ganglia learns action values and filters between alternatives, and motor output selects the action that updates the environment. A direct reward channel from the environment to the basal ganglia was a gap identified during design and is now included explicitly. Without it, the basal ganglia has nothing to learn from.
 
 ## 3. Component reference
 
@@ -37,7 +37,7 @@ Three distinct learning mechanisms operate side by side in this architecture, no
 |---|---|
 | Visual cortex (CNN) | Pretrained |
 | Neocortex (transformer) | Pretrained |
-| Hippocampus (Hopfield network) | Neither — stored via a Hebbian / outer-product rule, not gradient descent |
+| Hippocampus (Hopfield network) | Neither: stored via a Hebbian / outer-product rule, not gradient descent |
 | Basal ganglia (RL policy / value) | Learned online, from experience in the 3D environment |
 
 ## 5. Open questions
@@ -57,17 +57,17 @@ Parked against the section that owns them, to be resolved when that mechanism is
 
 | Consideration | Note |
 |---|---|
-| Mushroom body / Kenyon cells | Insect mushroom-body architecture (sparse Kenyon-cell coding fanning onto a small number of output neurons) is a candidate alternative/complement to the Hopfield hippocampus (§3) for associative memory — sparse-coding pattern separation instead of Hopfield's dense attractor dynamics. Not yet integrated; flagged for future comparison. |
-| Place cells via the Hopfield network | The Hopfield hippocampus (§3) could additionally encode spatial position (place-cell-like attractors keyed on location), as a second way of representing space alongside — not replacing — the ring attractor's heading representation (§3, and `agent.md` §2's "Agent spatial state"). Whether the two spatial codes should be unified, kept separate, or one subsumes the other is open. |
+| Mushroom body / Kenyon cells | Insect mushroom-body architecture (sparse Kenyon-cell coding fanning onto a small number of output neurons) is a candidate alternative/complement to the Hopfield hippocampus (§3) for associative memory: sparse-coding pattern separation instead of Hopfield's dense attractor dynamics. Not yet integrated; flagged for future comparison. |
+| Place cells via the Hopfield network | The Hopfield hippocampus (§3) could additionally encode spatial position (place-cell-like attractors keyed on location), as a second way of representing space alongside (not replacing) the ring attractor's heading representation (§3, and `agent.md` §2's "Agent spatial state"). Whether the two spatial codes should be unified, kept separate, or one subsumes the other is open. |
 
 ## 7. References
 
 - LeCun, Y. et al. (1989). Backpropagation applied to handwritten zip code recognition.
 - Vaswani, A. et al. (2017). Attention is all you need. arXiv:1706.03762.
 - Horgan, D. et al. (2020). Distributed prioritised experience replay. arXiv:2003.13350.
-- Cross-inhibition, value-based multi-alternative decision making — worldscientific.com/doi/abs/10.1142/S0219493701000102.
+- Cross-inhibition, value-based multi-alternative decision making: worldscientific.com/doi/abs/10.1142/S0219493701000102.
 - Phenomenal interface theory: a model for basal ganglia function. Philosophical Transactions of the Royal Society B, 380(1939).
-- Ring attractor networks for action/state representation — arXiv:2410.03119.
+- Ring attractor networks for action/state representation: arXiv:2410.03119.
 - Montague, P.R., Dayan, P. & Sejnowski, T.J. (1996); Schultz, W., Dayan, P. & Montague, P.R. (1997). Foundational work establishing dopamine as a reward-prediction-error signal.
 - Frank, M.J. (2005). Computational account of the basal ganglia's D1 / D2, direct / indirect pathway architecture.
 - Kakade, S. & Dayan, P. (2002). Dopamine: generalisation and bonuses. Neural Networks.
