@@ -66,6 +66,7 @@ Out of scope for §1–§2: the retina and spatial-state design above stands on 
 | Ground contact | Foot IK / foot-locking likely needed once locomotion is driven by discrete mocap clips rather than continuous physics-driven movement. |
 | Action space change | A bigger change than a parameter tweak: the neural circuit's action space may need to shift from continuous position/heading deltas to clip selection/blend weights, with implications back in `neural.md`'s Motor output / Basal ganglia stages. Not resolved here, just flagged. |
 | Reflexive obstacle avoidance | A working 2D prototype (a 360° ring of proximity sensors around heading, bearing-weighted into a signed steering correction) bypasses `neural.md`'s cognitive loop entirely as a reflex arc; extending it to 3D and deciding whether it stays a hand-tuned reflex or folds into the cognitive loop is future work. |
+| Thermal (FLIR-equivalent) tier | A 6th fidelity tier (§3) reading emitted rather than reflected radiance: a per-material blackbody temperature converted via Planck's law into a pseudo-thermal signal, rather than a reflectance-based colour tap. Depends on `engine/README.md`'s light-temperature item (§5 Moderate) for the Planckian-locus machinery, and on materials carrying a temperature property that does not exist yet — an emission channel, not a lighting one. |
 
 Deferred by design: when these are addressed, each will likely warrant its own document section, or its own document, rather than expanding this one further.
 
