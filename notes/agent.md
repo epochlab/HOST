@@ -16,9 +16,9 @@ point-and-heading state: the connective tissue between `engine/README.md`'s rend
   → Position/heading update (this module)
   → Environment (closes the loop)
 
-This module defines only the sensor between an existing renderer and existing cognition: a field of points rigidly attached to the agent, each casting a ray and reading back whatever `engine/README.md`'s intersection/shading pipeline produces at the hit, packed into the signal `neural.md`'s Retina stage already assumes exists.
+This module defines only the sensor between an existing renderer and existing cognition. A field of points is rigidly attached to the agent; each point casts a ray and reads back whatever `engine/README.md`'s intersection/shading pipeline produces at the hit. The result is packed into the signal `neural.md`'s Retina stage already assumes exists.
 
-Distinct from `engine/README.md`'s Phase 3 debug camera, despite both being ray-cast viewpoints into the same scene: the debug camera is free-input human instrumentation outside the pipeline it observes; the retina is a mandatory stage driven by the agent's own motor output, and samples many points per step rather than one full-frame image. Both reuse the same BVH and shading code; neither duplicates it.
+This is distinct from `engine/README.md`'s Phase 3 debug camera, even though both are ray-cast viewpoints into the same scene. The debug camera is free-input human instrumentation outside the pipeline it observes. The retina is a mandatory stage driven by the agent's own motor output, and it samples many points per step rather than one full-frame image. Both reuse the same BVH and shading code; neither duplicates it.
 
 ## 2. Component reference
 
@@ -40,9 +40,9 @@ Distinct from `engine/README.md`'s Phase 3 debug camera, despite both being ray-
 
 The retina's colour signal (§2's "Surface colour sampling" row) is not fixed to one AOV; it is
 one of five selectable fidelity tiers, trading render cost against signal richness. Exactly one
-tier is active for the whole retina field at a time, set via runtime config (analogous to
-`engine/README.md`'s Phase 3 AOV selector, but consumed by the sensor rather than displayed for
-debugging); tiers are not mixed per-point. Depth and normal sampling (§2) are unaffected by tier
+tier is active for the whole retina field at a time, set via runtime config; tiers are not mixed
+per-point. This is analogous to `engine/README.md`'s Phase 3 AOV selector, though the sensor
+consumes it rather than displaying it for debugging. Depth and normal sampling (§2) are unaffected by tier
 selection: every tier still packs depth + normal per point; only the colour-channel portion of
 the packed signal (§2's "Signal packing" row) varies.
 
@@ -56,7 +56,7 @@ the packed signal (§2's "Signal packing" row) varies.
 
 ## 4. Future considerations
 
-Out of scope for §1–§2: the retina and spatial-state design above stands on its own as an abstract point + heading, with no dependency on any particular body or environment-avoidance behaviour. A rigged 3D biped model and a library of motion-capture clips already exist as assets, and a working 2D reflexive obstacle-avoidance prototype already exists separately; this section records how each is expected to attach later, without pulling their concerns into the core design now.
+Out of scope for §1–§2: the retina and spatial-state design above stands on its own as an abstract point + heading, with no dependency on any particular body or environment-avoidance behaviour. A rigged 3D biped model and a library of motion-capture clips already exist as assets. A working 2D reflexive obstacle-avoidance prototype already exists separately. This section records how each is expected to attach later, without pulling their concerns into the core design now.
 
 | Consideration | Note |
 |---|---|
