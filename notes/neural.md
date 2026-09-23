@@ -13,7 +13,9 @@ The architecture is organised as a continuous, recurrent loop rather than a sing
   - → Reward → Basal ganglia
 - Motor output → updates Environment (closes the loop) and Hippocampus (writes new memory)
 
-Six anatomically-grounded stages carry the main loop: the retina samples the scene, the visual cortex extracts features, the neocortex reasons over them, the basal ganglia learns action values and filters between alternatives, and motor output selects the action that updates the environment. A direct reward channel from the environment to the basal ganglia was a gap identified during design and is now included explicitly. Without it, the basal ganglia has nothing to learn from.
+Six anatomically-grounded stages carry the main loop. The retina samples the scene; the visual cortex extracts features; the neocortex reasons over them; the basal ganglia learns action values and filters between alternatives; motor output selects the action that updates the environment.
+
+A direct reward channel from the environment to the basal ganglia was a gap identified during design and is now included explicitly. Without it, the basal ganglia has nothing to learn from.
 
 ## 3. Component reference
 
@@ -57,8 +59,8 @@ Parked against the section that owns them, to be resolved when that mechanism is
 
 | Consideration | Note |
 |---|---|
-| Mushroom body / Kenyon cells | Insect mushroom-body architecture (sparse Kenyon-cell coding fanning onto a small number of output neurons) is a candidate alternative/complement to the Hopfield hippocampus (§3) for associative memory: sparse-coding pattern separation instead of Hopfield's dense attractor dynamics. Not yet integrated; flagged for future comparison. |
-| Place cells via the Hopfield network | The Hopfield hippocampus (§3) could additionally encode spatial position (place-cell-like attractors keyed on location), as a second way of representing space alongside (not replacing) the ring attractor's heading representation (§3, and `agent.md` §2's "Agent spatial state"). Whether the two spatial codes should be unified, kept separate, or one subsumes the other is open. |
+| Mushroom body / Kenyon cells | Insect mushroom-body architecture (sparse Kenyon-cell coding fanning onto a small number of output neurons) is a candidate alternative/complement to the Hopfield hippocampus (§3) for associative memory. It offers sparse-coding pattern separation instead of Hopfield's dense attractor dynamics. Not yet integrated; flagged for future comparison. |
+| Place cells via the Hopfield network | The Hopfield hippocampus (§3) could additionally encode spatial position, i.e. place-cell-like attractors keyed on location. This would be a second way of representing space, alongside (not replacing) the ring attractor's heading representation (§3, and `agent.md` §2's "Agent spatial state"). Whether the two spatial codes should be unified, kept separate, or one subsumes the other is open. |
 
 ## 7. References
 
