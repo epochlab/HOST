@@ -1,4 +1,4 @@
 [submodule "engine"]
-	path = engine
-	url = https://github.com/epochlab/ENGINE.git
+	path = pathtracer
+	url = https://github.com/epochlab/PATHTRACER.git
 	branch = main
