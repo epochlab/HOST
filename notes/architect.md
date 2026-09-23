@@ -16,12 +16,14 @@ separate, independently-versioned repositories, and how a master project compose
   - ring-attractor: motor output
   - mlp: proprioception encoder
 
-Flat submodules: master pins all ten repos directly; `neural` is not a parent repo. Neural's
-mechanism repos are named by computational mechanism, not biological region; `neural.md` §3 maps
-each to its biological analogue, and that mapping can change without renaming the repo. `neural`
-itself owns only loop-wiring (retina frame buffer, dopaminergic gate, sliding context window,
-`neural.md` §2/§3) and depends on the mechanism repos as siblings, the same way `agent` depends on
-`engine`.
+Flat submodules: master pins all ten repos directly; `neural` is not a parent repo.
+
+Neural's mechanism repos are named by computational mechanism, not biological region. `neural.md`
+§3 maps each to its biological analogue, and that mapping can change without renaming the repo.
+
+`neural` itself owns only loop-wiring (retina frame buffer, dopaminergic gate, sliding context
+window, `neural.md` §2/§3). It depends on the mechanism repos as siblings, the same way `agent`
+depends on `engine`.
 
 ## 2. Repo reference table
 
@@ -48,28 +50,31 @@ itself owns only loop-wiring (retina frame buffer, dopaminergic gate, sliding co
 | Position/heading → next frame's scene state | agent | engine | `agent.md` §1 |
 | Reward | master (task/episode definition) | rl | `neural.md` §2–3 |
 
-Reward and episode/reset control live in master, not `neural`/`rl`; `rl` consumes a reward scalar,
+Reward and episode/reset control live in master, not `neural`/`rl`. `rl` consumes a reward scalar;
 it doesn't define what earns one.
 
 ## 4. Cross-language / cross-device boundary
 
-Engine/Agent are C++; Neural's mechanism repos are tentatively Python on GPU, targeting CUDA or
-Apple Silicon (§6). Master's harness is the only repo that crosses the language boundary. Binding
-mechanism is open: pybind11 (in-process, no serialization cost) vs. an IPC boundary (shared-memory
-ring, ZeroMQ, gRPC: decoupled processes, a copy per step). Deferred pending neural's per-step
-compute budget.
+Engine/Agent are C++. Neural's mechanism repos are tentatively Python on GPU, targeting CUDA or
+Apple Silicon (§6). Master's harness is the only repo that crosses the language boundary.
 
-Dual GPU-backend support creates an asymmetry with Engine: Phase 6's CUDA/OptiX backend
-(`engine/README.md` §4) is NVIDIA-only, so Engine stays on OpenGL on Apple Silicon while Neural still gets
-GPU acceleration there via its portable backend. On NVIDIA this also opens GPU-resident interop for
-the packed signal (§3) (e.g. CUDA/OpenGL interop, avoiding a host round-trip) with no Apple
-Silicon equivalent. Unresolved; flagged in §6.
+Binding mechanism is open: pybind11 (in-process, no serialization cost) vs. an IPC boundary
+(shared-memory ring, ZeroMQ, or gRPC). The IPC option means decoupled processes, with a copy per
+step. Deferred pending neural's per-step compute budget.
+
+Dual GPU-backend support creates an asymmetry with Engine. Phase 6's CUDA/OptiX backend
+(`engine/README.md` §4) is NVIDIA-only, so Engine stays on OpenGL on Apple Silicon while Neural
+still gets GPU acceleration there via its portable backend.
+
+On NVIDIA this also opens GPU-resident interop for the packed signal (§3), e.g. CUDA/OpenGL
+interop, avoiding a host round-trip. There is no Apple Silicon equivalent. Unresolved; flagged in
+§6.
 
 ## 5. Build/versioning
 
 - Git submodules, flat (§1). No package registry: a submodule pin is enough until a repo is
   needed outside this project tree (Occam's razor default).
-- Master's `.gitmodules` pins exact commits, not branches/tags: any checkout of master reproduces
+- Master's `.gitmodules` pins exact commits, not branches/tags. Any checkout of master reproduces
   every module's exact state.
 - Each repo tags releases independently; only a pin bump in master pulls in a module's new commit.
 
@@ -88,11 +93,11 @@ Silicon equivalent. Unresolved; flagged in §6.
 Cross-cutting: applies to every repo in §2, no exceptions.
 
 Baseline (Occam's razor): correct first, simple always, fast where it matters. No new
-abstraction or dependency without checking an existing one first; three similar lines beats a
+abstraction or dependency without checking an existing one first. Three similar lines beats a
 premature abstraction. No dead code, no speculative generality, no defensive noise around
 scenarios that can't happen. Validate at every system/security boundary (asset loads, the §4 IPC
-boundary if chosen, any network input); never swallow an error. NASA/JPL's "Power of Ten" (Holzmann, 2006) 
-applied where the domain allows.
+boundary if chosen, any network input). Never swallow an error. NASA/JPL's "Power of Ten"
+(Holzmann, 2006) applied where the domain allows.
 
 | Rule | Applied here |
 |---|---|
