@@ -6,16 +6,15 @@ An embodied agent simulation: a real-time physically based renderer paired with 
 
 ## Overview
 
-- **Renderer** (design doc and code in [`pathtracer/`](pathtracer/README.md)): a CPU path tracer (Intel Embree) built progressively from a direct-lighting ray tracer toward full spectral, unbiased global illumination. A GPU backend is roadmap, not shipped.
-- **Agent sensor & spatial state** (`notes/agent.md`): a point-sampled retinal sensor that casts rays into the pathtracer's scene and packs RGB-D-normal signal for the agent.
-- **Cognitive architecture** (`notes/neural.md`): a recurrent loop (Retina → Visual cortex → Neocortex → Basal ganglia → Motor output) modelled on anatomical analogues.
+- **Renderer** (design doc and code in [`PATHTRACER/`](PATHTRACER/README.md)): a CPU path tracer (Intel Embree) built progressively from a direct-lighting ray tracer toward full spectral, unbiased global illumination. A GPU backend is roadmap, not shipped.
+- **Agent sensor & spatial state** (`docs/agent.md`): a point-sampled retinal sensor that casts rays into the pathtracer's scene and packs RGB-D-normal signal for the agent.
+- **Cognitive architecture** (design doc and code in [`NN/`](NN/README.md)): a recurrent loop (Retina → Visual cortex → Neocortex → Basal ganglia → Motor output) modelled on anatomical analogues.
 
 The three pieces close a loop. The pathtracer renders the environment; the agent's retina samples it; the cognitive architecture decides on an action; motor output updates the agent's state in the environment.
 
 ## Notes
 
-Design documents live under [notes/](notes/). The pathtracer's design doc lives in [pathtracer/README.md](pathtracer/README.md) instead, alongside its code:
+Design documents live under [docs/](docs/). The pathtracer's design doc lives in [PATHTRACER/README.md](PATHTRACER/README.md) and the cognitive architecture's in [NN/README.md](NN/README.md) instead, alongside their code:
 
-- [agent.md](notes/agent.md): retina sensor and spatial state
-- [neural.md](notes/neural.md): cognitive architecture
-- [architect.md](notes/architect.md): architecture planning notes
+- [agent.md](docs/agent.md): retina sensor and spatial state
+- [architect.md](docs/architect.md): architecture planning notes

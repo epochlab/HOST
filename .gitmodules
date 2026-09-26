@@ -1,4 +1,8 @@
-[submodule "pathtracer"]
-	path = pathtracer
+[submodule "NN"]
+	path = NN
+	url = https://github.com/epochlab/NN.git
+	branch = main
+[submodule "PATHTRACER"]
+	path = PATHTRACER
 	url = https://github.com/epochlab/PATHTRACER.git
 	branch = main
